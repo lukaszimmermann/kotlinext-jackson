@@ -56,4 +56,18 @@ class ExtensionTests {
             }
         )
     }
+
+    @Test
+    fun `object node equal 5`() {
+        assertEquals(
+            expected = createObjectNode().apply {
+                set("key1", null)
+                set("key2", TextNode("value2"))
+            },
+            actual = objectNode {
+                "key2" mapsTo "value2"
+                "key1" mapsTo null
+            }
+        )
+    }
 }
