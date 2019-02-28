@@ -8,7 +8,11 @@ import kotlin.test.assertEquals
 class ExtensionTests {
 
     private fun createObjectNode() = jacksonObjectMapper().createObjectNode()
+    private fun createArrayNode() = jacksonObjectMapper().createArrayNode()
 
+    /*
+     * Object Node
+     */
     @Test
     fun `object node equal 0`() {
         assertEquals(
@@ -69,5 +73,71 @@ class ExtensionTests {
                 "key1" mapsTo null
             }
         )
+    }
+
+    @Test
+    fun `object node equal 6`() {
+        assertEquals(
+            expected = createObjectNode().apply {
+                set("key1", null)
+                set("key2", createObjectNode().apply {
+                    set("key3", TextNode("value3"))
+                })
+            },
+            actual = objectNode {
+                "key1" mapsTo null
+                "key2" mapsTo objectNode {
+                    "key3" mapsTo "value3"
+                }
+            }
+        )
+    }
+
+    /*
+     * Array Node
+     */
+    @Test
+    fun `array node equal 1`() {
+        assertEquals(
+            expected = createArrayNode().apply {
+                add("foo")
+                add("bar")
+            },
+            actual = arrayNode(TextNode("foo"), TextNode("bar")))
+    }
+
+    @Test
+    fun `array node equal 2`() {
+        assertEquals(
+            expected = createArrayNode().apply {
+                add("foo")
+                add("bar")
+            },
+            actual = arrayNode("foo", "bar"))
+    }
+
+    /*
+    * Object Node with nested array node
+    */
+    @Test
+    fun `object node with array node 1`() {
+        assertEquals(
+            expected = createObjectNode().apply {
+                set("key", createArrayNode().add("foo").add("bar"))
+            },
+            actual = objectNode {
+                "key" mapsTo arrayNode("foo", "bar")
+            })
+    }
+
+    @Test
+    fun `object node with array node 2`() {
+        assertEquals(
+            expected = createObjectNode().apply {
+                set("key", createArrayNode())
+            },
+            actual = objectNode {
+                "key" mapsTo emptyArrayNode()
+            })
     }
 }

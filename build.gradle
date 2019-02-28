@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'kotlinext'
-version '1.0'
+version '1.1'
 
 repositories {
     mavenCentral()
@@ -38,7 +38,7 @@ publishing {
 
 model {
     tasks.generatePomFileForMavenPublication {
-        destination = file("$buildDir/libs/jacksonmodule-1.0.pom")
+        destination = file("$buildDir/libs/jacksonmodule-1.1.pom")
     }
 }
 
