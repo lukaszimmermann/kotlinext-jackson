@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.databind.node.TextNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import kotlinext.jacksonmodule.internal.EmptyArrayNode
+import kotlinext.jacksonmodule.internal.EmptyObjectNode
 
 /*
  * Object Node
@@ -41,14 +43,12 @@ fun objectNode(builderFun: (ObjectNodeBuilder.() -> Unit)? = null): ObjectNode {
     }
 }
 
-
-private fun createArrayNode() = jacksonObjectMapper().createArrayNode()
-
 private fun <T> arrayNodeFrom(elements: Array<T>, by: ArrayNode.(T) -> Unit): ArrayNode =
-    createArrayNode().apply {
+    jacksonObjectMapper().createArrayNode().apply {
         elements.forEach { by(this, it) }
     }
 
 fun arrayNode(vararg elements: JsonNode): ArrayNode = arrayNodeFrom(elements) { add(it) }
 fun arrayNode(vararg elements: String): ArrayNode = arrayNodeFrom(elements) { add(it) }
 fun emptyArrayNode(): ArrayNode = EmptyArrayNode
+fun emptyObjectNode(): ObjectNode = EmptyObjectNode

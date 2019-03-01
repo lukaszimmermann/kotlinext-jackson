@@ -140,4 +140,18 @@ class ExtensionTests {
                 "key" mapsTo emptyArrayNode()
             })
     }
+
+    @Test
+    fun `empty Object`() {
+        assertEquals(
+            expected = createObjectNode(),
+            actual = emptyObjectNode())
+    }
+
+    @Test
+    fun `empty Array`() {
+        assertEquals(
+            expected = createArrayNode(),
+            actual = emptyArrayNode())
+    }
 }
